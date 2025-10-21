@@ -1,0 +1,10 @@
+---
+- name: Instalar htop en servidor remoto
+  hosts: all
+  become: yes
+  tasks:
+    - name: Instalar htop
+      apt:
+        name: htop
+        state: present
+        update_cache: yes

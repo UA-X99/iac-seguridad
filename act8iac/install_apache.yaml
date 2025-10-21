@@ -1,0 +1,29 @@
+---
+- name: Instalar y verificar Apache en Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Actualizar lista de paquetes
+      apt:
+        update_cache: yes
+
+    - name: Instalar Apache2
+      apt:
+        name: apache2
+        state: present
+
+    - name: Asegurar que Apache esté activo y habilitado
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Verificar que Apache esté corriendo
+      command: systemctl is-active apache2
+      register: apache_status
+      changed_when: false
+
+    - name: Mostrar estado de Apache
+      debug:
+        msg: "Apache está {{ apache_status.stdout }}"
+
